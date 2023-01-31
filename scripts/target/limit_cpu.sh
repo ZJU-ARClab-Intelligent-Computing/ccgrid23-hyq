@@ -15,24 +15,4 @@ limit_cpu_to() {
     done
 }
 
-# low=$1
-# high=$2
-# step=$3
-
-# if [ $low -lt 2 ]; then
-#     low=2
-# fi
-
-# if [ $high -gt $MAX_CPU_ID ]; then
-#     high=$MAX_CPU_ID
-# fi
-
-# while true; do
-#     for nr_cores in $(seq $low $step $high); do
-#         limit_cpu_to $nr_cores
-#         echo "Limited number of cpu cores to: $nr_cores"
-#         sleep 30
-#     done
-# done
-
 limit_cpu_to $1

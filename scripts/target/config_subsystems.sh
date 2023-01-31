@@ -32,10 +32,6 @@ NUM_P2P_QUEUES_PER_DEV=$5
 # increasing aio-max-nr to allow large iodepth with many jobs and NAMEs
 echo 1048576 > /proc/sys/fs/aio-max-nr
 
-# Count number of online CPUs
-# NUM_POSSIBLE_CPUS=1
-# NUM_POSSIBLE_CPUS=$(cat /sys/devices/system/cpu/possible | tr "-" " " | xargs seq | wc -w)
-
 I=0
 NVME_DEVS=$(ls /dev/ | grep "nvme[0-9]\+n1")
 NR_OFFLOAD_DEVS=$(echo "$(echo $NVME_DEVS | wc -w) * $OFFLOAD_RATIO" | bc | awk '{printf "%d", $0}')
