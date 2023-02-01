@@ -1,0 +1,7 @@
+# mount points
+rocksdb_mnt/
+
+# rocksdb test result dirs
+rocksdb_res/
+rocksdb_cpu/
+rocksdb_tgt_cpu/

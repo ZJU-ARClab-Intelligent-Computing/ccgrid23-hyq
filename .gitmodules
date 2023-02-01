@@ -2,7 +2,13 @@
     path = drivers/host
     url = https://github.com/nickyc975/ccgrid23-hyq-host.git
     branch = hyq
+
 [submodule "ccgrid23-hyq-target"]
     path = drivers/target
     url = https://github.com/nickyc975/ccgrid23-hyq-target.git
     branch = hyq
+
+[submodule "rocksdb"]
+	path = evaluation/rocksdb/rocksdb
+	url = https://github.com/nickyc975/rocksdb.git
+	branch = hyq

@@ -11,3 +11,6 @@ TARGET_SCRIPTS_ROOT=/path/to/ccgrid23-hyq
 
 # Target Smart-NIC name.
 TARGET_SNIC_NAME=enp134s0f0
+
+# NVMe-oF devices for evaluation
+DEVICES="/dev/nvme1n1 /dev/nvme2n1"
