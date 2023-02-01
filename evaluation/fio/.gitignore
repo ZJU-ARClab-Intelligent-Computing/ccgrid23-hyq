@@ -1,0 +1,7 @@
+# fio jobs dir
+fio-job/
+
+# test result dirs
+fio_res/
+cpu_res/
+tgt_cpu_res/
