@@ -44,6 +44,11 @@ sudo /usr/sbin/rmmod nvmet-rdma
 cd ${MODULEDIR} && git checkout $1
 cd ${MODULEDIR} && make -j40 && sudo make install -j40
 
+sudo /etc/init.d/openibd force-restart
+
+# Wait for the network ready.
+sleep 5
+
 sudo /usr/sbin/modprobe nvmet-rdma
 
 sudo ${SCRIPTDIR}/config_subsystems.sh start $3 $2 4420 $NUM_P2P_QUEUES_PER_DEV
