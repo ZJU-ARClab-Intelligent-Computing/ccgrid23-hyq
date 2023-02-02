@@ -32,7 +32,7 @@ for ((i = 0; i < $cycle_cnt; i++)); do
         jobpids=""
 
         mkdir -p $SCRIPTDIR/rocksdb_res/$scheme/${benchmark}_$i
-        $SCRIPTDIR/db_bench.sh $DEVICES $becnmark $SCRIPTDIR/rocksdb_res/$scheme/${benchmark}_$i &
+        $SCRIPTDIR/db_bench.sh $DEVICES $benchmark $SCRIPTDIR/rocksdb_res/$scheme/${benchmark}_$i &
         jobpids="$jobpids $!"
 
         top -d 2 -b -n ${runtime} | grep %Cpu > $SCRIPTDIR/rocksdb_cpu/$scheme/${benchmark}_$i.log &

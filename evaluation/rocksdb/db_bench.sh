@@ -70,7 +70,7 @@ function load_database {
 function run_benchmark {
     local job_pids=""
 
-    # Run becnmark for each device parallelly
+    # Run benchmark for each device parallelly
     for device in $DEVICES; do
         local mnt_point=$SCRIPTDIR/rocksdb_mnt/$(basename $device)
 
