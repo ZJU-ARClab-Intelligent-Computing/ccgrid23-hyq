@@ -27,7 +27,7 @@ if [ ! -e "${MODULEDIR}/configure.mk.kernel" ]; then
                 --with-nfsrdma-mod \
                 --with-nvmf_host-mod \
                 --with-nvmf_target-mod \
-                -j40 && \
+                -j40
 fi
 
 sudo ${SCRIPTDIR}/config_subsystems.sh stop
