@@ -115,22 +115,22 @@ for ((i = 0; i < $cycle_cnt; i++)); do
     echo 0 | sudo tee /sys/module/qd_rw_based/parameters/offload_op
     echo 32,32 | sudo tee /sys/module/qd_rw_based/parameters/offload_qds
 
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 2
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 2
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
     benchmark randread_0_4k_4k_8_64_2147483647_2_2 $i
 
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 4
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 4
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
     benchmark randread_0_4k_4k_8_64_2147483647_2_4 $i
 
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 6
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 6
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
     benchmark randread_0_4k_4k_8_64_2147483647_2_6 $i
 
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 8
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 8
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
     benchmark randread_0_4k_4k_8_64_2147483647_2_8 $i
 
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 48
-    ssh ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/limit_cpu.sh 48
+    ssh root@${TARGET_SSH_ADDR} $SCRIPTDIR/../../scripts/target/set_irq_affinity.sh $TARGET_SNIC_NAME
 done
