@@ -27,7 +27,7 @@ function mount_devices {
         local mnt_point=$SCRIPTDIR/rocksdb_mnt/$(basename $device)
         mkdir -p $mnt_point
         umount $mnt_point > /dev/null 2>&1 || true
-        sudo mkfs -t ext4 -f $device
+        sudo mkfs -t ext4 $device
         mount -t ext4 $device $mnt_point
     done
 }
