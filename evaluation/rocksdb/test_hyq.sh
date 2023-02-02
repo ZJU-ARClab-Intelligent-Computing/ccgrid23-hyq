@@ -22,11 +22,11 @@ benchmarks="readrandom overwrite readwhilewriting mergerandom"
 for ((i = 0; i < $cycle_cnt; i++)); do
     for benchmark in $benchmarks; do
         if [ $benchmark == "readrandom" ]; then
-            echo 0 | sudo tee /sys/module/cx5/parameters/offload_op
-            echo 32,32 | sudo tee /sys/module/cx5/parameters/offload_qds
+            echo 0 | sudo tee /sys/module/qd_rw_based/parameters/offload_op
+            echo 32,32 | sudo tee /sys/module/qd_rw_based/parameters/offload_qds
         else
-            echo 1 | sudo tee /sys/module/cx5/parameters/offload_op
-            echo 16,16 | sudo tee /sys/module/cx5/parameters/offload_qds
+            echo 1 | sudo tee /sys/module/qd_rw_based/parameters/offload_op
+            echo 16,16 | sudo tee /sys/module/qd_rw_based/parameters/offload_qds
         fi
 
         jobpids=""

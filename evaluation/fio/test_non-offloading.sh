@@ -43,7 +43,7 @@ benchmark() {
     sleep $sleeptime
 
     top -d 2 -b -n $runtime | grep %Cpu > $cpu_res/$resname.log &
-    ssh root@10.14.30.250 top -d 2 -b -n $runtime | grep %Cpu > $tgt_cpu_res/$resname.log
+    ssh root@${TARGET_SSH_ADDR} top -d 2 -b -n $runtime | grep %Cpu > $tgt_cpu_res/$resname.log
 
     wait $jobpid
 
