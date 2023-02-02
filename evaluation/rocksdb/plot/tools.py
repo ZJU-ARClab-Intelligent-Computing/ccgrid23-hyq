@@ -10,12 +10,7 @@ import json
 # 输入："1024k"
 # 输出："1m"
 def shorten_bs(bs):
-    next_unit = {
-        "b": "k",
-        "k": "m",
-        "m": "g",
-        "g": "t"
-    }
+    next_unit = {"b": "k", "k": "m", "m": "g", "g": "t"}
 
     unit = bs[-1]
     bs_num = int(bs[:-1])
@@ -29,11 +24,11 @@ def shorten_bs(bs):
 # 将块大小或块大小范围转化为数字，便于比较大小
 def bsrange2num(bsrange):
     size_map = {
-        "b": 1024 ** 0,
-        "k": 1024 ** 1,
-        "m": 1024 ** 2,
-        "g": 1024 ** 3,
-        "t": 1024 ** 4
+        "b": 1024**0,
+        "k": 1024**1,
+        "m": 1024**2,
+        "g": 1024**3,
+        "t": 1024**4,
     }
     bs = bsrange.split("-")[0]
     return int(bs[:-1]) * size_map[bs[-1]]
@@ -42,51 +37,46 @@ def bsrange2num(bsrange):
 # 解析一个fio生成的IO性能报告文件
 # 输入：文件路径，xxx/xxx.json
 # 输出：带宽，IOPS，延迟，读延迟分布，写延迟分布
-def parse_io_perf_file(bench_dirname,pattern):
-    # print("------enter parse_io_perf_file:",bench_dirname)
-    
-    filename_list= bench_dirname.split("/")
-    key_str=filename_list[-1].split("_")
-    # print(filename_list)
-    # print(key_str)
+def parse_io_perf_file(dirname):
     count = 0
-    iops,thru_put, lat_avg, lat_p50, lat_p75, lat_p99, lat_p999, lat_p9999 = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0
+    iops, thru_put, lat_avg, lat_p50, lat_p99, lat_p999, lat_p9999, lat_pmax = (
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+        0.00,
+    )
 
-    
-    for filename in os.listdir(f"{bench_dirname}/{pattern}"):
-            if filename.endswith(".tsv"):
-                # print(bench_dirname+"/"+filename)
-                with open(f"{bench_dirname}/{pattern}/{filename}", "r") as file:
-                    lines = file.readlines()
-                    last_line = lines[-1]
-                    # print("------last_line",last_line)
-                    parts = last_line.strip().split("\t")
-                    # print("parts",parts)
-                    iops += float(parts[0])
-                    thru_put += float(parts[1])
-                    lat_avg += float(parts[11])
-                    lat_p50 += float(parts[12])
-                    lat_p75 += float(parts[13])
-                    lat_p99 += float(parts[14])
-                    lat_p999 += float(parts[15])
-                    lat_p9999 += float(parts[16])
-                    count += 1
+    with open(f"{dirname}/report.tsv", "r") as file:
+        lines = file.readlines()
+        last_line = lines[-1]
+        parts = last_line.strip().split("\t")
+        iops += float(parts[0])
+        thru_put += float(parts[1])
+        lat_avg += float(parts[7])
+        lat_p50 += float(parts[8])
+        lat_p99 += float(parts[9])
+        lat_p999 += float(parts[10])
+        lat_p9999 += float(parts[11])
+        lat_pmax += float(parts[12])
+        count += 1
 
     lat_avg /= count
     lat_p50 /= count
-    lat_p75 /= count
+    lat_pmax /= count
     lat_p99 /= count
     lat_p999 /= count
     lat_p9999 /= count
-    return iops,thru_put, lat_avg, lat_p50, lat_p75, lat_p99, lat_p999, lat_p9999,key_str[0],key_str[1]
-
-
+    return (iops, thru_put, lat_avg, lat_p50, lat_p99, lat_p999, lat_p9999, lat_pmax)
 
 
 # def parse_io_perf_file(bench_dirname):
 #     #print("enter parse_io_perf_file:",bench_dirname)
 #     count = 0
-#     iops,thru_put, lat_avg, lat_p50, lat_p75, lat_p99, lat_p999, lat_p9999 = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0
+#     iops,thru_put, lat_avg, lat_p50, lat_pmax, lat_p99, lat_p999, lat_p9999 = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0
 #     vm_index_list = os.listdir(bench_dirname)
 #     for vm_index in vm_index_list:
 #         for filename in os.listdir(f"{bench_dirname}/{vm_index}/readrandom"):
@@ -102,7 +92,7 @@ def parse_io_perf_file(bench_dirname,pattern):
 #                     thru_put += float(parts[1])
 #                     lat_avg += float(parts[11])
 #                     lat_p50 += float(parts[12])
-#                     lat_p75 += float(parts[13])
+#                     lat_pmax += float(parts[13])
 #                     lat_p99 += float(parts[14])
 #                     lat_p999 += float(parts[15])
 #                     lat_p9999 += float(parts[16])
@@ -110,11 +100,11 @@ def parse_io_perf_file(bench_dirname,pattern):
 
 #     lat_avg /= count
 #     lat_p50 /= count
-#     lat_p75 /= count
+#     lat_pmax /= count
 #     lat_p99 /= count
 #     lat_p999 /= count
 #     lat_p9999 /= count
-#     return iops,thru_put, lat_avg, lat_p50, lat_p75, lat_p99, lat_p999, lat_p9999
+#     return iops,thru_put, lat_avg, lat_p50, lat_pmax, lat_p99, lat_p999, lat_p9999
 
 
 # 解析一个iostat生成的CPU利用率报告文件
@@ -141,7 +131,12 @@ def parse_cpu_load_file(filename):
                 io_tps_cnt = 0
                 io_tps = 0.0
 
-        return sum(cpu_loads) / len(cpu_loads), cpu_loads, sum(io_tpss) / len(io_tpss), io_tpss
+        return (
+            sum(cpu_loads) / len(cpu_loads),
+            cpu_loads,
+            sum(io_tpss) / len(io_tpss),
+            io_tpss,
+        )
 
 
 # 解析某个ioperf文件夹下的所有IO性能信息文件
@@ -152,37 +147,50 @@ def parse_cpu_load_file(filename):
 #     "thru_put": 吞吐量,
 #     "name": 使用的调度方案的名字
 # }
-def parse_io_perfs(dirname, name,pattern):
-    #print("enter parse_io_perfs:", dirname)
-    filename_list= dirname.split("/")
-    print(filename_list)
+def parse_io_perfs(dirname, scheme, benchmark):
+    scheme_map = {
+        "non-offloading": "Non-offloading",
+        "offloading": "Offloading",
+        "hyq": "HyQ",
+    }
+
     io_perfs = []
-    # bench_dirnames = os.listdir(dirname)
-    # print("bech_dirnames:", bench_dirnames)
-    # for bench_dirname in bench_dirnames:
-    benchmark = dirname
-    # thru_put, lat_avg, lat_p50, lat_p75, lat_p99, lat_p999, lat_p9999 = parse_io_perf_file(
-    # f"{dirname}/{bench_dirname}")
-    iops, thru_put, lat_avg, lat_p50, lat_p75, lat_p99, lat_p999, lat_p9999,vm_num,cycle_cnt = parse_io_perf_file(
-        f"{dirname}",pattern)
-    io_perfs.append({
-        "type":filename_list[6],
-        "pattern":pattern,
-        "vm_num":int(vm_num),
-        # "benchmark": benchmark,
-        "iops":iops/1000,
-        "thru_put": thru_put / 1000,
-        "lat_avg": lat_avg / 1000,
-        "lat_p50": lat_p50 / 1000,
-        "lat_p75": lat_p75 / 1000,
-        "lat_p99": lat_p99 / 1000,
-        "lat_p999": lat_p999 / 1000,
-        "lat_p9999": lat_p9999 / 1000,
-        # **kwargs
-        "cycle_cnt":cycle_cnt,
-        "name":vm_num+"-"+cycle_cnt
-    })
-    # print(io_perfs)
+
+    (
+        iops,
+        thru_put,
+        lat_avg,
+        lat_p50,
+        lat_p99,
+        lat_p999,
+        lat_p9999,
+        lat_pmax,
+    ) = parse_io_perf_file(f"{dirname}")
+
+    scheme = scheme_map[scheme]
+
+    io_perfs.append(
+        {
+            "scheme": scheme,
+            "benchmark": benchmark,
+            "iops": iops / 1000,
+            "thru_put": thru_put / 1000,
+            # "lat_avg": lat_avg / 1000,
+            # "lat_p50": lat_p50 / 1000,
+            # "lat_pmax": lat_pmax / 1000,
+            # "lat_p99": lat_p99 / 1000,
+            # "lat_p999": lat_p999 / 1000,
+            # "lat_p9999": lat_p9999 / 1000,
+            "lat_avg": lat_avg,
+            "lat_p50": lat_p50,
+            "lat_pmax": lat_pmax,
+            "lat_p99": lat_p99,
+            "lat_p999": lat_p999,
+            "lat_p9999": lat_p9999,
+            # "cycle_cnt": cycle_cnt,
+        }
+    )
+
     return io_perfs
 
 
@@ -202,38 +210,32 @@ def parse_cpu_loads(dirname, **kwargs):
     filenames = os.listdir(dirname)
     for filename in filenames:
         [benchmark, _] = filename.split(".")
-        avg, seq, io_tps, io_tps_seq = parse_cpu_load_file(
-            f"{dirname}/{filename}")
-        cpu_loads.append({
-            "benchmark": benchmark,
-            "avg": avg,
-            "seq": seq,
-            "io_tps": io_tps / 1000,
-            "io_tps_seq": io_tps_seq,
-            **kwargs
-        })
+        avg, seq, io_tps, io_tps_seq = parse_cpu_load_file(f"{dirname}/{filename}")
+        cpu_loads.append(
+            {
+                "benchmark": benchmark,
+                "avg": avg,
+                "seq": seq,
+                "io_tps": io_tps / 1000,
+                "io_tps_seq": io_tps_seq,
+                **kwargs,
+            }
+        )
     return cpu_loads
 
 
 # 从一个results文件夹下读入所有数据
 # 输入：路径，xxx/results_xxx
 # 输出：target端CPU利用率数据，IO性能数据，host端CPU利用率数据，target端内存带宽占用率数据
-def get_data(io_perfs,path,pattern):
-    # print("enter get data:", path)
-    # io_perfs = []
+def get_data(path):
 
-    # 将需要绘制的CPU占用率数据、IO性能数据以及内存带宽占用率数据都分别解析到一个数组里
+    io_perfs = []
     for folder in os.listdir(path):
-        #print(folder)
-        # if(folder == "report.tsv"):
-        #     # if(folder=)
-        #     # print("folder:", folder)
-        name = folder.split("_")[0]
-        #     # print("name:", name)
-        # io_perfs.extend(parse_io_perfs(f"{path}/{folder}/ioperf", name=name))
-
-        io_perfs.extend(parse_io_perfs(f"{path}/{folder}", name=name,pattern=pattern))
-    # print(io_perfs)
+        io_perfs.extend(
+            parse_io_perfs(
+                f"{path}/{folder}", os.path.basename(path), folder.split("_")[0]
+            )
+        )
 
     return io_perfs
 
@@ -282,18 +284,17 @@ def merge_io_perf(values):
         merged["thru_put"] += value["thru_put"]
         merged["lat_avg"] += value["lat_avg"]
         merged["lat_p50"] += value["lat_p50"]
-        merged["lat_p75"] += value["lat_p75"]
+        merged["lat_pmax"] += value["lat_pmax"]
         merged["lat_p99"] += value["lat_p99"]
         merged["lat_p999"] += value["lat_p999"]
         merged["lat_p9999"] += value["lat_p9999"]
         count += 1
 
-
     merged["iops"] /= count
     merged["thru_put"] /= count
     merged["lat_avg"] /= count
     merged["lat_p50"] /= count
-    merged["lat_p75"] /= count
+    merged["lat_pmax"] /= count
     merged["lat_p99"] /= count
     merged["lat_p999"] /= count
     merged["lat_p9999"] /= count
@@ -377,33 +378,20 @@ def normalize_io_perfs(bases, values):
     new_values = []
     for base, value in zip(bases, values):
         new_value = copy(value)
-        new_value["iops"] = normalize(
-            new_value["iops"], base["iops"])
+        new_value["iops"] = normalize(new_value["iops"], base["iops"])
         print(new_value["thru_put"], base["thru_put"])
-        new_value["thru_put"] = normalize(
-            new_value["thru_put"], base["thru_put"])
+        # new_value["thru_put"] = normalize(
+        #     new_value["thru_put"], base["thru_put"])
         new_value["lat_avg"] = normalize(new_value["lat_avg"], base["lat_avg"])
         new_value["lat_p50"] = normalize(new_value["lat_p50"], base["lat_p50"])
-        new_value["lat_p75"] = normalize(new_value["lat_p75"], base["lat_p75"])
+        new_value["lat_pmax"] = normalize(new_value["lat_pmax"], base["lat_pmax"])
         new_value["lat_p99"] = normalize(new_value["lat_p99"], base["lat_p99"])
-        new_value["lat_p999"] = normalize(
-            new_value["lat_p999"], base["lat_p999"])
-        new_value["lat_p9999"] = normalize(
-            new_value["lat_p9999"], base["lat_p9999"])
+        new_value["lat_p999"] = normalize(new_value["lat_p999"], base["lat_p999"])
+        new_value["lat_p9999"] = normalize(new_value["lat_p9999"], base["lat_p9999"])
         new_values.append(new_value)
     return new_values
 
-def plot_set_tick(ax, top_bool):
-    if(top_bool):
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-    else:
-        ax.spines['bottom'].set_visible(False)
-        ax.spines['right'].set_visible(False)
 
-    ax.tick_params("y", which='major',
-                   length=15, width=2.0,
-                   colors="black")
-    ax.tick_params(which="minor",
-                   length=5, width=1.0,
-                   labelsize=100, labelcolor="0.25")
+def plot_set_tick(ax):
+    ax.tick_params("y", which="major", length=7, colors="black")
+    ax.tick_params("x", which="major", length=7, colors="black")
