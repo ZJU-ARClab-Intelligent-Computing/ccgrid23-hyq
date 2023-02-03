@@ -2,11 +2,7 @@
 
 import os
 import json
-import math
 import re
-import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib.ticker import MultipleLocator
 
 
 ORDERED_NAMES = ["Non-offloading", "Offloading", "HyQ"]
@@ -55,8 +51,6 @@ LINE_COLORS = {
         "seqread": "#FE5F05",
     },
 }
-
-plt.rcParams.update({"font.size": 22, "font.family": "Times New Roman"})
 
 
 # 解析一个fio生成的IO性能报告文件
@@ -225,24 +219,6 @@ def read_cpu_loads(cpu_path):
             }
         )
     return cpu_loads
-
-
-def write_excel(title, columns, rows, data):
-    book = xlwt.Workbook(encoding="utf-8", style_compression=0)
-
-    sheet = book.add_sheet(f"{title}", cell_overwrite_ok=True)
-    for index, item in enumerate(columns):
-        sheet.write(0, index + 1, item)
-
-    for index, item in enumerate(rows):
-        sheet.write(index * 2 + 1, 0, item)
-
-    for index1, item1 in enumerate(data):
-        for index2, item2 in enumerate(item1):
-            sheet.write(index1 * 2 + 1, index2 + 1, float(item2))
-
-    savepath = f"./excel/{title}.xls"
-    book.save(savepath)
 
 
 def filter_results(results, requirements):

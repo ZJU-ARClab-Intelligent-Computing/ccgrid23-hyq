@@ -2,11 +2,16 @@
 
 import sys
 
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
+
 from tools import *
 
-def plot_bar(
-    plt, items, x_key, y_key, label, offset, width, edgecolor, data
-):
+
+plt.rcParams.update({"font.size": 22, "font.family": "Times New Roman"})
+
+
+def plot_bar(plt, items, x_key, y_key, label, offset, width, edgecolor, data):
     x = [item[x_key] for item in items]
     y = [item[y_key] for item in items]
     ticks = [i for i in range(len(items))]
@@ -152,7 +157,7 @@ def plot_result_single(
     # fig.subplots_adjust(left=0.115, right=0.995, top=0.85, bottom=0.2)
     fig.subplots_adjust(left=margin_left, right=0.995, top=0.85, bottom=0.2)
 
-    plot_set_tick(normalized_iops, True)
+    plot_set_tick(normalized_iops)
 
     # 计算iops、bw、lat相对值
     # cal_relative_perf(names,io_perfs_iops)
@@ -234,7 +239,6 @@ def plot_result_single(
                     offset * width,
                     width,
                     BAR_COLORS[name],
-                    True,
                     data,
                 )
                 offset += 1.0
@@ -248,7 +252,6 @@ def plot_result_single(
                     offset * width,
                     width,
                     BAR_COLORS[name],
-                    True,
                     data,
                 )
                 offset += 1.0
