@@ -5,10 +5,10 @@ import os
 import re
 import sys
 
-from tools_ssd import *
+from evaluation.fio.plot.tools_device_optim import *
 
 
-SCHEME_NAME = {"kernel": "Non-offloading", "cx5": "Offloading", "hypath": "HyQ"}
+SCHEME_NAME = {"non-offloading": "Non-offloading", "offloading": "Offloading", "hyq": "HyQ"}
 
 
 # 解析一个fio生成的IO性能报告文件

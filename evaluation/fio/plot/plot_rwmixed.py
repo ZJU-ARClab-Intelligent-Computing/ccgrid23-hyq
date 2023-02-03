@@ -5,10 +5,10 @@ import os
 import re
 import sys
 
-from tools_core_limited import *
+from evaluation.fio.plot.tools_rwmixed import *
 
 
-SCHEME_NAME = {"kernel": "Non-offloading", "cx5": "Offloading", "hypath": "HyQ"}
+SCHEME_NAME = {"non-offloading": "Non-offloading", "offloading": "Offloading", "hyq": "HyQ"}
 
 
 # 解析一个fio生成的IO性能报告文件
@@ -127,7 +127,7 @@ def read_fio_perfs(fio_path):
                 "wpercentile": wpercentile,
                 "iops": riops / 1000 + wiops / 1000,  # k
                 "bandwidth": rbw / 1024 + wbw / 1024,  # MB
-                "casename": str(int(cpunum) * 2),
+                "casename": nd + "%",
                 "latency": rlatency / 1000 + wlatency / 1000,
             }
         )
@@ -171,14 +171,14 @@ def read_cpu_loads(cpu_path):
                 "sy": sy,
                 "id": id,
                 "cutil": cutil,
-                "casename": str(int(cpunum) * 2),
+                "casename": nd + "%",
             }
         )
     return cpu_loads
 
     
 def plot_iops_with_complex(cpu_loads, fio_perfs, fig_path, iops_requirements={}, suffix_name=""):
-    iops_requirements = {**iops_requirements, "blocksize": {"4k"}, "cpunum": {2,4,6,8}, "numjobs":{8},"iodepth":{64}, "rw": {"randread"}}
+    iops_requirements = {**iops_requirements, "blocksize": {"128k"}, "cpunum": {96},"numjobs":{8},"iodepth":{64},"rw":{"randrw-50%"}, "nd": {"0", "30", "50", "70", "100"}}
     fio_perfs_iops = filter_results(fio_perfs, iops_requirements)
     cpu_loads_iops = filter_results(cpu_loads, iops_requirements)
 
@@ -188,43 +188,45 @@ def plot_iops_with_complex(cpu_loads, fio_perfs, fig_path, iops_requirements={},
     schemes_iops, fio_perfs_iops_by_schemes = group_by("scheme", fio_perfs_iops)
     schemes_iops, cpu_loads_iops_by_schemes = group_by("scheme", cpu_loads_iops)
 
+    print(cpu_loads_iops_by_schemes)
+
     for scheme in schemes_iops:
     #     fio_perfs_iops_by_schemes[scheme] = merge_by(
     #         "scheme_rate", merge_io_perf, fio_perfs_iops_by_schemes[scheme]
     #     )
-        fio_perfs_iops_by_schemes[scheme].sort(key=lambda item: int(item["cpunum"]))
+        fio_perfs_iops_by_schemes[scheme].sort(key=lambda item: int(item["nd"]))
 
         # cpu_loads_iops_by_schemes[scheme] = merge_by(
     #         "scheme_rate", merge_cpu_load, cpu_loads_iops_by_schemes[scheme]
     #     )
-        cpu_loads_iops_by_schemes[scheme].sort(key=lambda item: int(item["cpunum"]))
+        cpu_loads_iops_by_schemes[scheme].sort(key=lambda item: int(item["nd"]))
 
     plot_result_single(
-        "IOPS",
+        "Bandwidth",
         schemes_iops,
         cpu_loads_iops_by_schemes,
         fio_perfs_iops_by_schemes,
         None,
         None,
         "casename",
-        "# of Target CPU Cores",
+        "Percentage of Writes",
         fig_path,
         suffix_name
     )
-    
 
     plot_result_single(
-        "cutil-iops",
+        "cutil-bw",
         schemes_iops,
         cpu_loads_iops_by_schemes,
         fio_perfs_iops_by_schemes,
         None,
         None,
         "casename",
-        "# of Target CPU Cores",
+        "Percentage of Writes",
         fig_path,
         suffix_name
     )
+
 
 
 def plot_rw_qd(cpu_loads, fio_perfs, fig_path):
