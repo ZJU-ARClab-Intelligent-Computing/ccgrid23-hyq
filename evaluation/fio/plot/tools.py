@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
-import os
 import json
+import os
 import re
+import sys
+
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
 
 
 ORDERED_NAMES = ["Non-offloading", "Offloading", "HyQ"]
@@ -379,3 +383,21 @@ def merge_by(key, func, items):
         merged.append(func(value))
 
     return merged
+
+
+def filter_lat(per_list, percents, latencies):
+    percents_res = []
+    latencies_res = []
+    for index, per in enumerate(percents):
+        if per in per_list:
+            percents_res.append(percents[index])
+            latencies_res.append(latencies[index])
+    return percents_res, latencies_res
+
+
+def plot_grid(plt):
+    plt.grid(axis="y", color="silver", linewidth=0.7, zorder=0)
+
+
+# Unified font type and size.
+plt.rcParams.update({"font.size": 22, "font.family": "Times New Roman"})

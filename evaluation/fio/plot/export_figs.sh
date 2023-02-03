@@ -14,3 +14,4 @@ cp $src_dir/IOPS_iops_rate.pdf $dst_dir/evaluation-process-capability.pdf
 cp $src_dir/ssd_lat.pdf $dst_dir/evaluation-device-specified-optimization-lat.pdf
 cp $src_dir/ssd.pdf $dst_dir/evaluation-device-specified-optimization.pdf
 cp $src_dir/ssd_without_HyQ.pdf $dst_dir/motivation-device-specified-optimization.pdf
+cp $src_dir/Latency_iops_rate.pdf $dst_dir/evaluation-processing-capability-lat.pdf

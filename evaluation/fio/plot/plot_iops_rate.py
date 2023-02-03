@@ -1,14 +1,6 @@
 #!/usr/bin/python3
 
-import sys
-
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-
 from tools import *
-
-
-plt.rcParams.update({"font.size": 22, "font.family": "Times New Roman"})
 
 
 def plot_bar(plt, items, x_key, y_key, label, offset, width, edgecolor, data):
@@ -336,7 +328,7 @@ def plot_result_single_latency(
                 data,
             )
             offset += 1.0
-    write_excel(title, row, col, data)
+    # write_excel(title, row, col, data)
     # 绘制网格
 
     # iops.legend(loc="upper center",ncol=4,fontsize='small',columnspacing=0.7,handletextpad=0.1,bbox_to_anchor=(0.55,1.25),edgecolor="black",borderpad=0.3)
