@@ -120,11 +120,6 @@ def plot_bar(plt, items, x_key, y_key, label, offset, width, edgecolor, data):
     # plt.get_xaxis().set_visible(False)
 
 
-# 绘制网格
-def plot_grid(plt):
-    plt.grid(axis="y", color="silver", linewidth=0.7, zorder=0)
-
-
 def plot_result_single(
     title,
     names,
@@ -265,87 +260,6 @@ def plot_result_single(
     )
 
     res = resfile + "/" + title + "_iops_rate" + suffix_name
-    fig.savefig(f"{res}.png", dpi=300)
-    fig.savefig(f"{res}.pdf", format="pdf")
-
-
-def plot_result_single_latency(
-    title,
-    names,
-    cpu_loads_iops,
-    io_perfs_iops,
-    cpu_loads_bw,
-    io_perfs_bw,
-    x_key,
-    x_label,
-    resfile,
-):
-    plt.rcParams.update({"font.size": 20})
-    # 创建绘图
-
-    fig, (iops) = plt.subplots(nrows=1, ncols=1, figsize=(10, 4))
-    # fig.subplots_adjust(left=0.10, right=0.995, top=0.85, bottom=0.2)
-    fig.subplots_adjust(left=0.10, right=0.995, top=0.85, bottom=0.2)
-
-    # fig, (normalized_iops) = plt.subplots(nrows=1, ncols=1, figsize=(10, 4))
-    # fig.subplots_adjust(left=0.10, right=0.995, top=0.95, bottom=0.15)
-
-    plot_set_tick(iops, True)
-
-    # 设置y轴名称
-
-    iops.set_ylabel("Average Latency(μs)")
-    # iops.set_xlabel("Various Test Cases")
-    # plot_grid(iops)
-
-    # 计算每一个条的宽度
-    width = 0.6 / len(names)
-
-    # 设置每一个条的偏移量
-    offset = -((len(names) - 1) / 2.0)
-
-    row = []
-    col = []
-    data = []
-    cnt = 0
-
-    for name in ORDERED_NAMES:
-        if name in names:
-            col.append(name)
-            cnt = cnt + 1
-            if cnt == 1:
-                row = [item["rw"] for item in io_perfs_iops[name]]
-            plot_bar(
-                iops,
-                io_perfs_iops[name],
-                x_key,
-                "latency",
-                name,
-                offset * width,
-                width,
-                BAR_COLORS[name],
-                True,
-                data,
-            )
-            offset += 1.0
-    # write_excel(title, row, col, data)
-    # 绘制网格
-
-    # iops.legend(loc="upper center",ncol=4,fontsize='small',columnspacing=0.7,handletextpad=0.1,bbox_to_anchor=(0.55,1.25),edgecolor="black",borderpad=0.3)
-    iops.legend(
-        loc="upper center",
-        ncol=5,
-        fontsize=19,
-        frameon=True,
-        handletextpad=0.1,
-        handlelength=1,
-        borderpad=0.3,
-        edgecolor="black",
-        bbox_to_anchor=(0.5, 1.27),
-        fancybox=False,
-    )
-
-    res = resfile + "/" + title
     fig.savefig(f"{res}.png", dpi=300)
     fig.savefig(f"{res}.pdf", format="pdf")
 

@@ -236,11 +236,6 @@ def filter_results(results, requirements):
     return list(results)
 
 
-def plot_set_tick(ax):
-    ax.tick_params("y", which="major", length=7, colors="black")
-    ax.tick_params("x", length=7, colors="black")
-
-
 def isnumber(aString):
     try:
         float(aString)
@@ -397,6 +392,11 @@ def filter_lat(per_list, percents, latencies):
 
 def plot_grid(plt):
     plt.grid(axis="y", color="silver", linewidth=0.7, zorder=0)
+
+
+def plot_set_tick(ax):
+    ax.tick_params("y", which="major", length=7, colors="black")
+    ax.tick_params("x", length=7, colors="black")
 
 
 # Unified font type and size.
