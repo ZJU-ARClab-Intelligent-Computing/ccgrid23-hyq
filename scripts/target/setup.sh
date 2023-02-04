@@ -9,6 +9,8 @@ NUM_P2P_QUEUES_PER_DEV=32
 SCRIPTDIR=$(dirname $(readlink -f "$0"))
 MODULEDIR=${SCRIPTDIR}/../../drivers/target
 
+$SCRIPTDIR/../config_cpu.sh
+
 if [ ! -e "${MODULEDIR}/configure.mk.kernel" ]; then
     cd ${MODULEDIR} && \
     ./configure --with-core-mod \

@@ -8,6 +8,8 @@ fi
 SCRIPTDIR=$(dirname $(readlink -f "$0"))
 MODULEDIR=${SCRIPTDIR}/../../drivers/host
 
+$SCRIPTDIR/../config_cpu.sh
+
 sudo rmmod basic 2>&1 || true
 sudo rmmod qd-rw-based 2>&1 || true
 sudo rmmod nvme-rdma 2>&1 || true
