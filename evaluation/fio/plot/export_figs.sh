@@ -1,7 +1,9 @@
 #!/bin/bash
 
-src_dir=./figures/20221204165152
+src_dir=./figures
 dst_dir=$1
+
+mkdir -p dst_dir
 
 cp $src_dir/Bandwidth_nd_bw_without_HyQ.pdf $dst_dir/motivation-complex-io-patterns.pdf
 cp $src_dir/Bandwidth_nd_bw.pdf $dst_dir/evaluation-complex-io-patterns.pdf
