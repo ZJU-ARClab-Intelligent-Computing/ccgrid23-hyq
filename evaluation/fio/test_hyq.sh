@@ -104,7 +104,7 @@ for ((i = 0; i < $cycle_cnt; i++)); do
     warmup
 
     echo 0 | sudo tee /sys/module/qd_rw_based/parameters/offload_op
-    echo 32,32 | sudo tee /sys/module/qd_rw_based/parameters/offload_qds
+    echo 64,64 | sudo tee /sys/module/qd_rw_based/parameters/offload_qds
 
     benchmark randread_0_128k_4k_8_64_2147483647_2_48 $i
 
