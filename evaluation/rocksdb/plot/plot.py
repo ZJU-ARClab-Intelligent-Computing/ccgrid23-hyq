@@ -198,8 +198,8 @@ def plot_result(title, names, io_perfs, x_key, filename):
     iops.set_ylim(0, 70000)
 
     title = title + "/" + filename
-    fig.savefig(f"{title}_iops.pdf", dpi=300)
-    fig.savefig(f"{title}_iops.png", dpi=300)
+    fig.savefig(f"fig-16-{title}_iops.pdf", dpi=300)
+    fig.savefig(f"fig-16-{title}_iops.png", dpi=300)
 
 
 def plot_result_lat(title, names, io_perfs, x_key, filename):
@@ -248,8 +248,8 @@ def plot_result_lat(title, names, io_perfs, x_key, filename):
     iops.set_ylim(bottom=0, top=4800)
 
     title = title + "/" + filename
-    fig.savefig(f"{title}_lat.pdf", dpi=300)
-    fig.savefig(f"{title}_lat.png", dpi=300)
+    fig.savefig(f"fig-17-{title}_lat.pdf", dpi=300)
+    fig.savefig(f"fig-17-{title}_lat.png", dpi=300)
 
 
 def plot_result_tail_lat(
