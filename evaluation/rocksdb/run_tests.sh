@@ -13,3 +13,6 @@ $SCRIPTDIR/test_offloading.sh
 
 # Test HyQ.
 $SCRIPTDIR/test_hyq.sh
+
+# Generate figures.
+cd $SCRIPTDIR/plot && ./plot.sh
