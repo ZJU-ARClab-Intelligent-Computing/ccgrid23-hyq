@@ -9,6 +9,7 @@ wget https://kojipkgs.fedoraproject.org/packages/kernel/5.8.15/301.fc33/x86_64/k
 wget https://kojipkgs.fedoraproject.org/packages/kernel/5.8.15/301.fc33/x86_64/kernel-modules-5.8.15-301.fc33.x86_64.rpm
 
 sudo yum install -y kernel-5.8.15-301.fc33.x86_64.rpm --allowerasing
+sudo yum install -y kernel-devel-5.8.15-301.fc33.x86_64.rpm --allowerasing
 
 cd ../ && rm -rf .tmp_pkgs
 
