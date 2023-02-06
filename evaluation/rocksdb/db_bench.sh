@@ -3,7 +3,7 @@
 SCRIPTDIR=$(dirname $(readlink -f "$0"))
 
 # Script parameters
-DEVICES=$(echo $1 | awk '{print $1}') # We only need one device.
+DEVICES=$1
 BENCHMARK=$2
 OUTPUT_DIR=$3
 

@@ -5,6 +5,9 @@ SCRIPTDIR=$(dirname $(readlink -f "$0"))
 # Apply configurations.
 source $SCRIPTDIR/../config.sh
 
+# We only need one device.
+DEVICES=$(echo $DEVICES | awk '{print $1}')
+
 # Setup test env.
 sudo nvme disconnect-all && \
 ssh root@${TARGET_SSH_ADDR} ${TARGET_SCRIPTS_ROOT}/scripts/target/setup.sh main ${TARGET_NVMF_ADDR} 1 && \
