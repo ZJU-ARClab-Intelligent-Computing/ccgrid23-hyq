@@ -3,7 +3,7 @@
 src_dir=./figures
 dst_dir=$1
 
-mkdir -p dst_dir
+mkdir -p $dst_dir
 
 mv $src_dir/ssd_without_HyQ.pdf $dst_dir/fig-3-motivation-device-specified-optimization.pdf
 mv $src_dir/IOPS_iops_rate_without_HyQ.pdf $dst_dir/fig-4-motivation-processing-capability.pdf
