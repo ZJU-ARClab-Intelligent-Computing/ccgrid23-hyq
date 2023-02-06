@@ -67,7 +67,7 @@ Essential requirements:
 
 Follow the steps to initialize the software environments, __all operations should be performed on both host and target servers__:
 
-* Clone the repository: `git clone https://github.com/ZJU-ARClab-Smart-Computing/ccgrid23-hyq.git`
+* Clone the repository: `git clone https://github.com/ZJU-ARClab-Intelligent-Computing/ccgrid23-hyq.git`
 
 * Update submodules: `cd /path/to/ccgrid23-hyq && git submodule update --init --recursive`
 
