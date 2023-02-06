@@ -198,8 +198,8 @@ def plot_result(title, names, io_perfs, x_key, filename):
     iops.set_ylim(0, 70000)
 
     title = title + "/" + filename
-    fig.savefig(f"fig-16-{title}_iops.pdf", dpi=300)
-    fig.savefig(f"fig-16-{title}_iops.png", dpi=300)
+    fig.savefig(f"{title}.pdf", dpi=300)
+    fig.savefig(f"{title}.png", dpi=300)
 
 
 def plot_result_lat(title, names, io_perfs, x_key, filename):
@@ -248,101 +248,8 @@ def plot_result_lat(title, names, io_perfs, x_key, filename):
     iops.set_ylim(bottom=0, top=4800)
 
     title = title + "/" + filename
-    fig.savefig(f"fig-17-{title}_lat.pdf", dpi=300)
-    fig.savefig(f"fig-17-{title}_lat.png", dpi=300)
-
-
-def plot_result_tail_lat(
-    title,
-    names,
-    io_perfs,
-    io_perfs_normalized,
-    x_key,
-    filename,
-    bool_normalized,
-    pattern_list,
-):
-    fig, ((vm_1, vm_2), (vm_3, vm_4)) = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
-    # fig, (vm_1, vm_50) = plt.subplots(nrows=1, ncols=2, figsize=(48, 32))
-    fig.subplots_adjust(
-        left=0.1, right=0.98, top=0.92, bottom=0.11, hspace=0.38, wspace=0.2
-    )
-
-    # 设置y轴名称
-    vm_1.set_ylabel("Latency(msec)")
-    vm_3.set_ylabel("Latency(msec)")
-
-    plots = {
-        "readrandom": vm_1,
-        "readwhilewriting": vm_2,
-        "overwrite": vm_3,
-        "mergerandom": vm_4,
-    }
-
-    abcd_index = {
-        "readrandom": "a",
-        "overwrite": "b",
-        "readwhilewriting": "c",
-        "mergerandom": "d",
-    }
-
-    plot_set_tick(vm_1, True)
-    plot_set_tick(vm_2, True)
-    plot_set_tick(vm_3, True)
-    plot_set_tick(vm_4, True)
-
-    for pattern in pattern_list:
-        for name in ORDERED_NAMES:
-            if name in names:
-                plot_line(
-                    plots[pattern],
-                    io_perfs[name],
-                    x_key,
-                    "iops",
-                    name,
-                    EDGE_COLORS[name],
-                    HATCHS[name],
-                    pattern,
-                    abcd_index[pattern],
-                )
-
-    vm_1.legend(
-        fontsize="small",
-        bbox_to_anchor=(2.17, 1.2),
-        borderaxespad=0.0,
-        ncol=5,
-        columnspacing=0.6,
-        handlelength=1.5,
-        handletextpad=0.1,
-        fancybox=False,
-        edgecolor="black",
-    )
-
-    vm_1.set_title("(a) 100 Guests", y=-0.3, fontsize=26)
-    vm_2.set_title("(b) 200 Guests", y=-0.3, fontsize=26)
-    vm_3.set_title("(c) 300 Guests", y=-0.3, fontsize=26)
-    vm_4.set_title("(c) 400 Guests", y=-0.3, fontsize=26)
-
-    vm_1.yaxis.set_major_locator(MultipleLocator(3))
-    vm_2.yaxis.set_major_locator(MultipleLocator(3))
-    vm_3.yaxis.set_major_locator(MultipleLocator(3))
-    vm_4.yaxis.set_major_locator(MultipleLocator(3))
-
-    # 绘制网格
-    plot_grid(vm_1)
-    plot_grid(vm_2)
-    plot_grid(vm_3)
-    plot_grid(vm_4)
-    if bool_normalized:
-        title = title + "/" + filename + "_normalized"
-        vm_1.set_ylim(bottom=0, top=130)
-    else:
-        title = title + "/" + filename
-
-    print(title)
-
-    fig.savefig(f"{title}_tail_lat.pdf", dpi=300)
-    fig.savefig(f"{title}_tail_lat.png", dpi=300)
+    fig.savefig(f"{title}.pdf", dpi=300)
+    fig.savefig(f"{title}.png", dpi=300)
 
 
 if __name__ == "__main__":
@@ -359,8 +266,6 @@ if __name__ == "__main__":
             "benchmark", merge_io_perf, io_perfs_by_schemes[scheme]
         )
 
-    plot_result(fig_dir, schemes, io_perfs_by_schemes, "benchmark", "tpt")
+    plot_result(fig_dir, schemes, io_perfs_by_schemes, "benchmark", "fig-16-evaluation-rocksdb-ops")
 
-    plot_result_lat(fig_dir, schemes, io_perfs_by_schemes, "benchmark", "lat")
-
-    # plot_result_tail_lat(fig_dir, schemes, io_perfs_by_schemes, "benchmark", "tail_lat")
+    plot_result_lat(fig_dir, schemes, io_perfs_by_schemes, "benchmark", "fig-17-evaluation-rocksdb-lat")
