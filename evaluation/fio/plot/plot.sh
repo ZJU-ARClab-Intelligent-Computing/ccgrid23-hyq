@@ -1,6 +1,7 @@
 #!/bin/bash
 
 fio_dir="../fio_res"
+cpu_dir="../cpu_res"
 tgt_cpu_dir="../tgt_cpu_res"
 dst_fig_dir="./figures"
 
@@ -10,3 +11,4 @@ python3 ./plot_device_optim.py $fio_dir $tgt_cpu_dir $dst_fig_dir
 python3 ./plot_rwmixed.py $fio_dir $tgt_cpu_dir $dst_fig_dir
 python3 ./plot_iops_rate.py $fio_dir $tgt_cpu_dir $dst_fig_dir
 python3 ./plot_limited_cores.py $fio_dir $tgt_cpu_dir $dst_fig_dir
+python3 ./plot_overhead.py $fio_dir $cpu_dir $tgt_cpu_dir $dst_fig_dir

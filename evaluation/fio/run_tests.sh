@@ -14,5 +14,8 @@ $SCRIPTDIR/test_offloading.sh
 # Test HyQ.
 $SCRIPTDIR/test_hyq.sh
 
+# Test overhead.
+$SCRIPTDIR/test_overhead.sh
+
 # Generate figures.
 cd $SCRIPTDIR/plot && ./plot.sh && ./export_figs.sh ./figures

@@ -110,3 +110,23 @@ numdisks=2
 for numcores in 2 4 6 8; do
     generate_job
 done
+
+# Generate overhead evaluation jobs.
+rw=randread
+rwmixwrite=0
+bs=4k
+ba=4k
+rate_iops=2147483647
+numcores=48
+
+# Latency overhead evaluation job.
+numjobs=8
+iodepth=64
+numdisks=2
+generate_job
+
+# Throughput overhead evaluation job.
+numjobs=1
+iodepth=1
+numdisks=1
+generate_job
